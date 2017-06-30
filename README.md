@@ -1,6 +1,7 @@
 # MMM-CrisisInformationSweden
 [Magic Mirror](https://magicmirror.builders/) Module - News feed from the Swedish Government Crisis Information (Krisinformation.se)[https://www.krisinformation.se/engelska]
 
+
 ## Install
 1. Clone repository into ``../modules/`` inside your MagicMirror folder.
 2. Run ``npm install`` inside ``../modules/MMM-CrisisInformationSweden/`` folder
