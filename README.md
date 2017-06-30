@@ -14,6 +14,8 @@ modules: [
         module: 'MMM-CrisisInformationSweden',
         position: 'top-right'
         config: {
+            updateInterval: 10*60*1000,     // Optional. Number of ms between API updates. Not implemented yet.
+            uiUpdateInterval: 10*1000,      // Optional. Number of ms between changing to next announcement. Not implemented yet.
             alwaysNational: true,           // Optional, Regardless of other settings always show national info. Not implemented yet
             distance: -1,                   // Optional. Only info within a radius of distance km. Not implemented yet.
         }
