@@ -33,7 +33,8 @@ module.exports = NodeHelper.create({
         var self = this;
         console.log((new Date(Date.now())).toLocaleTimeString() + ': Getting feed ' + this.name);
         var opt = {
-            uri: 'http://api.krisinformation.se/v1/feed',
+            uri: 'http://api.krisinformation.se/v1/capmessage?format=json',
+            //uri: 'http://api.krisinformation.se/v1/feed',
             qs : {
             },
             json: true
