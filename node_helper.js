@@ -43,7 +43,7 @@ module.exports = NodeHelper.create({
         request(opt)
             .then(function(resp) {
                 var feeds = resp;
-                console.log((new Date(Date.now())).toLocaleTimeString() + ": Sending NEW_FEED "+feeds + " num: "+feeds.length);
+                console.log((new Date(Date.now())).toLocaleTimeString() + ": Sending NEW_FEED count: "+feeds.length);
                 self.sendSocketNotification('NEW_FEED', feeds); // Send feed to module
             })
             .catch(function(err) {
