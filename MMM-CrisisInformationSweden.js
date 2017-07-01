@@ -69,20 +69,20 @@ Module.register("MMM-CrisisInformationSweden", {
             spant.innerHTML = moment(msg.Published).fromNow(); // TODO Format the time according to how long ago it was
             spant.className = 'dimmed';
             var spanh = document.createElement("span");
-            spanh.innerHTML = msg.InfoData.Headline;
+            spanh.innerHTML = msg.InfoData[0].Headline;
             tdiv.appendChild(spant);
             tdiv.appendChild(spanh);
             wrapper.appendChild(tdiv);
 
             if (this.config.showDescription) {
                 var ddiv = document.createElement("div");
-                ddiv.innerHTML = msg.InfoData.Description;
+                ddiv.innerHTML = msg.InfoData[0].Description;
                 ddiv.className = 'dimmed small';
                 wrapper.appendChild(ddiv);
             }
-            if (msg.InfoData.SenderName !== undefined && msg.InfoData.SenderName != '') {
+            if (msg.InfoData[0].SenderName !== undefined && msg.InfoData[0].SenderName != '') {
                 var sdiv = document.createElement("div");
-                sdiv.innerHTML = 'From: ' + msg.InfoData.SenderName;
+                sdiv.innerHTML = 'From: ' + msg.InfoData[0].SenderName;
                 sdiv.className = 'dimmed xsmall';
                 wrapper.appendChild(sdiv);
             }
