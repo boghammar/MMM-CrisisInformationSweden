@@ -64,7 +64,7 @@ Module.register("MMM-CrisisInformationSweden", {
         if (this.currentFeedIndex >= this.currentFeed.length) this.currentFeedIndex = 0;
         if (this.currentFeed.length > 0) { // We have messages display the one up for displaying
             var dt = moment(this.currentFeed[this.currentFeedIndex].Published);
-            if (dt.diff(moment()) > this.config.oldest*24*60*60*1000) this.currentFeedIndex = 0;
+            if (moment().diff(dt) > this.config.oldest*24*60*60*1000) this.currentFeedIndex = 0;
 
             var msg = this.currentFeed[this.currentFeedIndex];
 
