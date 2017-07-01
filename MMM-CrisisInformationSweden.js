@@ -78,7 +78,7 @@ Module.register("MMM-CrisisInformationSweden", {
             if (this.config.showDescription) {
                 var ddiv = document.createElement("div");
                 ddiv.innerHTML = msg.InfoData[0].Description;
-                ddiv.className = 'dimmed small';
+                ddiv.className = 'dimmed small align-left';
                 wrapper.appendChild(ddiv);
             }
             if (msg.InfoData[0].SenderName !== undefined && msg.InfoData[0].SenderName != '') {
