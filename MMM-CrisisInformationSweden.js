@@ -19,17 +19,29 @@ Module.register("MMM-CrisisInformationSweden", {
     // --------------------------------------- Define module defaults
     defaults: {
         alwaysNational: true,           // Optional, Regardless of other settings always show national info. Not implemented yet
-        distance: -1,                   // Optional. Only info within a radius of distance km. Not implemented yet.
         updateInterval: 10*60*1000,     // Optional. Number of ms between API updates. Not implemented yet.
         uiUpdateInterval: 10*1000,      // Optional. Number of ms between changing to next announcement. Not implemented yet.
+        areas: [],                      // Optional. An array of strings with area names. 
+                                        // Only those messages aimed at the areas listed in the array are shown. 
+                                        // If empty or undefined show all messages. Not implemented yet.
+        showDescription: true,          // Optional. Show message description. Not yet implemented.
     },
     
+    // --------------------------------------- Define required scripts
+    getScripts: function() {
+		return ['moment.js'];
+	},
+
     // --------------------------------------- Start the module
     start: function() {
         Log.info("Starting module: " + this.name);
 
+        // Set locale.
+        moment.locale(config.language);
+
         this.loaded = false;
         this.sendSocketNotification('CONFIG', this.config); // Send config to helper and initiate an update
+        this.currentFeedIndex = 0;
 
         // Start timer for ui-updates
         var self = this;
@@ -47,6 +59,36 @@ Module.register("MMM-CrisisInformationSweden", {
 			wrapper.className = "dimmed light small";
 			return wrapper;
 		}
+
+        // ------ Display a selected message in the feed
+        if (this.currentFeedIndex >= this.currentFeed.length) this.currentFeedIndex = 0;
+        if (this.currentFeed.length > 0) { // We have messages display the one up for displaying
+            var msg = this.currentFeed[this.currentFeedIndex];
+            var tdiv = document.createElement("div");
+            var spant = document.createElement("span");
+            spant.innerHTML = moment(msg.Published).fromNow(); // TODO Format the time according to how long ago it was
+            spant.className = 'dimmed';
+            var spanh = document.createElement("span");
+            spanh.innerHTML = msg.InfoData.Headline;
+            tdiv.appendChild(spant);
+            tdiv.appendChild(spanh);
+            wrapper.appendChild(tdiv);
+
+            if (this.config.showDescription) {
+                var ddiv = document.createElement("div");
+                ddiv.innerHTML = msg.InfoData.Description;
+                sdiv.className = 'dimmed small';
+                wrapper.appendChild(ddiv);
+            }
+            if (msg.InfoData.SenderName !== undefined && msg.InfoData.SenderName != '') {
+                var sdiv = document.createElement("div");
+                sdiv.innerHTML = 'From: ' + msg.InfoData.SenderName;
+                sdiv.className = 'dimmed xsmall';
+                wrapper.appendChild(sdiv);
+            }
+        }
+
+        this.currentFeedIndex++;
 
         // ----- Show service failure if any
         if (this.failure !== undefined) {
@@ -66,7 +108,7 @@ Module.register("MMM-CrisisInformationSweden", {
             this.failure = undefined;
             // Handle payload
             this.currentFeed = payload;
-            Log.info("New feed updated: "+ this.currentFeed.departures.length);
+            Log.info("New feed updated: "+ this.currentFeed.length);
             this.updateDom();
         }
         if (notification == "SERVICE_FAILURE") {

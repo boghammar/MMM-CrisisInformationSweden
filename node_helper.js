@@ -40,7 +40,7 @@ module.exports = NodeHelper.create({
         console.log('Calling '+opt.uri);
         request(opt)
             .then(function(resp) {
-                var feeds = resp.Entries;
+                var feeds = resp;
                 console.log((new Date(Date.now())).toLocaleTimeString() + ": Sending NEW_FEED "+feeds.length);
                 self.sendSocketNotification('NEW_FEED', feeds); // Send feed to module
             })

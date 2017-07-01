@@ -1,5 +1,6 @@
 # MMM-CrisisInformationSweden
-[Magic Mirror](https://magicmirror.builders/) Module - News feed from the Swedish Government Crisis Information (Krisinformation.se)[https://www.krisinformation.se/engelska]
+[Magic Mirror](https://magicmirror.builders/) Module - News feed from the Swedish Government Crisis Information 
+[Krisinformation.se](https://www.krisinformation.se/engelska)
 
 
 ## Install
@@ -18,7 +19,10 @@ modules: [
             updateInterval: 10*60*1000,     // Optional. Number of ms between API updates. Not implemented yet.
             uiUpdateInterval: 10*1000,      // Optional. Number of ms between changing to next announcement. Not implemented yet.
             alwaysNational: true,           // Optional, Regardless of other settings always show national info. Not implemented yet
-            distance: -1,                   // Optional. Only info within a radius of distance km. Not implemented yet.
+            areas: [],                      // Optional. An array of strings with area names. 
+                                            // Only those messages aimed at the areas listed in the array are shown. 
+                                            // If empty or undefined show all messages. Not implemented yet.
+            showDescription: true,          // Optional. Show message description. Not yet implemented.
         }
     },
     ...
