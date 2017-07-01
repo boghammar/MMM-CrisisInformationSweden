@@ -65,8 +65,9 @@ Module.register("MMM-CrisisInformationSweden", {
         if (this.currentFeed.length > 0) { // We have messages display the one up for displaying
             var msg = this.currentFeed[this.currentFeedIndex];
             var tdiv = document.createElement("div");
+            tdiv.className = 'align-left';
             var spant = document.createElement("span");
-            spant.innerHTML = moment(msg.Published).fromNow(); // TODO Format the time according to how long ago it was
+            spant.innerHTML = moment(msg.Published).fromNow() + " "; // TODO Format the time according to how long ago it was
             spant.className = 'dimmed';
             var spanh = document.createElement("span");
             spanh.innerHTML = msg.InfoData[0].Headline;
@@ -83,7 +84,7 @@ Module.register("MMM-CrisisInformationSweden", {
             if (msg.InfoData[0].SenderName !== undefined && msg.InfoData[0].SenderName != '') {
                 var sdiv = document.createElement("div");
                 sdiv.innerHTML = 'From: ' + msg.InfoData[0].SenderName;
-                sdiv.className = 'dimmed xsmall';
+                sdiv.className = 'dimmed xsmall align-right';
                 wrapper.appendChild(sdiv);
             }
         }
