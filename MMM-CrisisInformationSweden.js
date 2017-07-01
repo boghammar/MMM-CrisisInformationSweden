@@ -64,14 +64,16 @@ Module.register("MMM-CrisisInformationSweden", {
         if (this.currentFeedIndex >= this.currentFeed.length) this.currentFeedIndex = 0;
         if (this.currentFeed.length > 0) { // We have messages display the one up for displaying
             var msg = this.currentFeed[this.currentFeedIndex];
+
             var tdiv = document.createElement("div");
             tdiv.className = 'align-left';
-            var spant = document.createElement("span");
+            var spant = document.createElement("div");
             spant.innerHTML = moment(msg.Published).fromNow() + " "; // TODO Format the time according to how long ago it was
-            spant.className = 'dimmed';
-            var spanh = document.createElement("span");
-            spanh.innerHTML = msg.InfoData[0].Headline;
+            spant.className = 'dimmed xsmall';
             tdiv.appendChild(spant);
+
+            var spanh = document.createElement("div");
+            spanh.innerHTML = msg.InfoData[0].Headline;
             tdiv.appendChild(spanh);
             wrapper.appendChild(tdiv);
 
