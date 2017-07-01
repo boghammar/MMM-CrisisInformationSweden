@@ -30,6 +30,7 @@ module.exports = NodeHelper.create({
 
     // --------------------------------------- Retrive new feed
     getFeed: function() {
+        var self = this;
         console.log((new Date(Date.now())).toLocaleTimeString() + ': Getting feed ' + this.name);
         var opt = {
             uri: 'http://api.krisinformation.se/v1/feed',
