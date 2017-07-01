@@ -25,6 +25,7 @@ Module.register("MMM-CrisisInformationSweden", {
                                         // Only those messages aimed at the areas listed in the array are shown. 
                                         // If empty or undefined show all messages. Not implemented yet.
         showDescription: true,          // Optional. Show message description. Not yet implemented.
+        oldest: 7,                      // Optional. Dont show messages older then this number of days. Not yet implemented.
     },
     
     // --------------------------------------- Define required scripts
