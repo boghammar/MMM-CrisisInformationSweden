@@ -16,7 +16,7 @@ modules: [
     ...
     {
         module: 'MMM-CrisisInformationSweden',
-        position: 'top-right'
+        position: 'top_right'
         config: {
             updateInterval: 10*60*1000,     // Optional. Number of ms between API updates.
             uiUpdateInterval: 10*1000,      // Optional. Number of ms between changing to next announcement.

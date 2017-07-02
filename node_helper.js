@@ -61,7 +61,7 @@ module.exports = NodeHelper.create({
             var inc = false;
             var feed = resp[ix];
             var areas = feed.InfoData[0].Area;
-            console.log("Looking at "+ feed.Identifier);
+            //console.log("Looking at "+ feed.Identifier);
             if (areas === undefined || areas === null) inc = true; // Always include iof there's no area defined
             else {
                 for (var ia = 0; ia < areas.length; ia++) {
