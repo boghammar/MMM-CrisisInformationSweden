@@ -42,8 +42,9 @@ module.exports = NodeHelper.create({
         console.log('Calling '+opt.uri);
         request(opt)
             .then(function(resp) {
-                var feeds = resp;
-                console.log((new Date(Date.now())).toLocaleTimeString() + ": Sending NEW_FEED count: "+feeds.length);
+                var feeds = self.filterFeed(resp);
+                console.log((new Date(Date.now())).toLocaleTimeString() 
+                    + ": Sending NEW_FEED count: "+feeds.length + " Org: " + resp.length);
                 self.sendSocketNotification('NEW_FEED', feeds); // Send feed to module
             })
             .catch(function(err) {
@@ -52,7 +53,30 @@ module.exports = NodeHelper.create({
             });
     },
 
-    // --------------------------------------- Handle notifocations
+    // --------------------------------------- Filter feeds according to config
+    filterFeed: function(resp) {
+        if (this.config.areas === undefined || this.config.areas.length < 1) return resp;
+        var feeds = [];
+        for (var ix = 0; ix < resp.length; ix++) {
+            var inc = false;
+            var feed = resp[ix];
+            var areas = feed.InfoData[0].Area;
+            console.log("Looking at "+ feed.Identifier);
+            if (areas === undefined || areas === null) inc = true; // Always include iof there's no area defined
+            else {
+                for (var ia = 0; ia < areas.length; ia++) {
+                    for (var iad = 0; iad < this.config.areas.length; iad++) {
+                        if (areas[ia].AreaDesc == this.config.areas[iad]) inc = true;
+                    }
+                    if (this.config.alwaysNational && areas[ia].AreaDesc == "Sverige") inc = true;
+                }
+            }
+            if (inc) feeds.push(feed);
+        }
+        return feeds;
+    },
+
+    // --------------------------------------- Handle notifications
     socketNotificationReceived: function(notification, payload) {
         const self = this;
         if (notification === 'CONFIG' && this.started == false) {
