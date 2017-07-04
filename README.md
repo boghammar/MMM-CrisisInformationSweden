@@ -34,6 +34,6 @@ modules: [
 ```
 
 
-## Screenshoot
+## Screenshot
 
 ![MMM-CrisisInformationSweden Module](https://github.com/boghammar/MMM-CrisisInformationSweden/blob/master/docs/ScreenShot2.PNG)
