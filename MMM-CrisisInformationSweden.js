@@ -88,12 +88,31 @@ Module.register("MMM-CrisisInformationSweden", {
                 ddiv.className = 'dimmed xsmall align-left';
                 wrapper.appendChild(ddiv);
             }
-            if (msg.InfoData[0].SenderName !== undefined && msg.InfoData[0].SenderName != '') {
-                var sdiv = document.createElement("div");
-                sdiv.innerHTML = 'From: ' + msg.InfoData[0].SenderName;
-                sdiv.className = 'dimmed xsmall align-right';
-                wrapper.appendChild(sdiv);
+            var bdiv = document.createElement("div");
+            bdiv.className = 'dimmed xsmall';
+            // TODO use style instead
+            bdiv.style.marginTop = '5px';
+            bdiv.style.borderTopWidth = '1px';
+            bdiv.style.borderTopColor = '#666';
+            bdiv.style.borderTopStyle = 'dotted';
+            if (msg.InfoData[0].Area !== undefined && msg.InfoData[0].Area.length > 0) {
+                var adiv = document.createElement("span");
+                adiv.innerHTML = '<b>Area(s):</b> ';
+                for (var ia = 0 ; ia < msg.InfoData[0].Area.length; ia++) {
+                    adiv.innerHTML = adiv.innerHTML + (ia > 0 ? ', ' : '') + msg.InfoData[0].Area[ia].AreaDesc;
+                }
+                adiv.className = 'align-left';
+                adiv.style.cssFloat = 'left';
+                bdiv.appendChild(adiv);
             }
+            if (msg.InfoData[0].SenderName !== undefined && msg.InfoData[0].SenderName != '') {
+                var sdiv = document.createElement("span");
+                sdiv.innerHTML = '<b>From:</b> ' + msg.InfoData[0].SenderName;
+                sdiv.className = 'align-right';
+                sdiv.style.cssFloat = 'right';
+                bdiv.appendChild(sdiv);
+            }
+            wrapper.appendChild(bdiv);
         }
 
         this.currentFeedIndex++;
