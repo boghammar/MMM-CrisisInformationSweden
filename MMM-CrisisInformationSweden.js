@@ -18,12 +18,13 @@
 Module.register("MMM-CrisisInformationSweden", {
     // --------------------------------------- Define module defaults
     defaults: {
-        alwaysNational: true,           // Optional, Regardless of other settings always show national info. Not implemented yet
-        updateInterval: 10*60*1000,     // Optional. Number of ms between API updates. Not implemented yet.
-        uiUpdateInterval: 10*1000,      // Optional. Number of ms between changing to next announcement. Not implemented yet.
+        alwaysNational: true,           // Optional, Regardless of other settings always show national info. Since this is a
+                                        // swedish features this means 'only show swedish info' 
+        updateInterval: 10*60*1000,     // Optional. Number of ms between API updates. 
+        uiUpdateInterval: 10*1000,      // Optional. Number of ms between changing to next announcement.
         areas: [],                      // Optional. An array of strings with area names. 
                                         // Only those messages aimed at the areas listed in the array are shown. 
-                                        // If empty or undefined show all messages. Not implemented yet.
+                                        // If empty or undefined show all messages.
         showDescription: true,          // Optional. Show message description. Not yet implemented.
         oldest: 7,                      // Optional. Dont show messages older then this number of days. Not yet implemented.
     },
