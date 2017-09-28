@@ -95,7 +95,7 @@ Module.register("MMM-CrisisInformationSweden", {
             bdiv.style.borderTopWidth = '1px';
             bdiv.style.borderTopColor = '#666';
             bdiv.style.borderTopStyle = 'dotted';
-            if (msg.InfoData[0].Area !== undefined && msg.InfoData[0].Area.length > 0) {
+            if (msg.InfoData[0].Area !== undefined && msg.InfoData[0].Area != null && msg.InfoData[0].Area.length > 0) {
                 var adiv = document.createElement("span");
                 adiv.innerHTML = '<b>Area(s):</b> ';
                 for (var ia = 0 ; ia < msg.InfoData[0].Area.length; ia++) {
@@ -105,7 +105,7 @@ Module.register("MMM-CrisisInformationSweden", {
                 adiv.style.cssFloat = 'left';
                 bdiv.appendChild(adiv);
             }
-            if (msg.InfoData[0].SenderName !== undefined && msg.InfoData[0].SenderName != '') {
+            if (msg.InfoData[0].SenderName !== undefined && msg.InfoData[0].SenderName != null && msg.InfoData[0].SenderName != '') {
                 var sdiv = document.createElement("span");
                 sdiv.innerHTML = '<b>From:</b> ' + msg.InfoData[0].SenderName;
                 sdiv.className = 'align-right';
