@@ -16,7 +16,7 @@ modules: [
     ...
     {
         module: 'MMM-CrisisInformationSweden',
-        position: 'top_right'
+        position: 'top_right',
         config: {
             updateInterval: 10*60*1000,     // Optional. Number of ms between API updates.
             uiUpdateInterval: 10*1000,      // Optional. Number of ms between changing to next announcement.
@@ -26,7 +26,7 @@ modules: [
                                             // The strings must match exactly with the AreaDesc of the message.
                                             // If empty or undefined show all messages.
             showDescription: true,          // Optional. Show message description.
-            oldest: 7,                      // Optional. Dont show messages older then this number of days.
+            oldest: 7                       // Optional. Dont show messages older then this number of days.
         }
     },
     ...
