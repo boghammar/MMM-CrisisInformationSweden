@@ -23,7 +23,7 @@ Module.register("MMM-CrisisInformationSweden", {
         uiUpdateInterval: 10*1000,      // Optional. Number of ms between changing to next announcement. 
         areas: [],                      // Optional. An array of strings with area names. 
                                         // Only those messages aimed at the areas listed in the array are shown. 
-                                        // If empty or undefined show all messages. Not implemented yet.
+                                        // If empty or undefined show all messages.
         showDescription: true,          // Optional. Show message description. Not yet implemented.
         oldest: 7,                      // Optional. Dont show messages older then this number of days.
     },
