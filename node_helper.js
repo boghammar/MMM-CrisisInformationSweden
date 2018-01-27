@@ -31,7 +31,7 @@ module.exports = NodeHelper.create({
     // --------------------------------------- Retrive new feed
     getFeed: function() {
         var self = this;
-        console.log((new Date(Date.now())).toLocaleTimeString() + ': Getting feed ' + this.name);
+        console.log((new Date(Date.now())).toLocaleTimeString() + ': Getting feed for module ' + this.name);
         var opt = {
             uri: 'http://api.krisinformation.se/v1/capmessage?format=json',
             //uri: 'http://api.krisinformation.se/v1/feed',
@@ -44,11 +44,11 @@ module.exports = NodeHelper.create({
             .then(function(resp) {
                 var feeds = self.filterFeed(resp);
                 console.log((new Date(Date.now())).toLocaleTimeString() 
-                    + ": Sending NEW_FEED count: "+feeds.length + " Org: " + resp.length);
+                    + ": "+ this.name +" - Sending NEW_FEED count: "+feeds.length + " Org: " + resp.length);
                 self.sendSocketNotification('NEW_FEED', feeds); // Send feed to module
             })
             .catch(function(err) {
-                console.log('Problems: '+err);
+                console.log('Problems with '+ this.name +': '+err);
                 self.sendSocketNotification('SERVICE_FAILURE', {resp: {StatusCode: 600, Message: err}}); 
             });
     },
