@@ -137,10 +137,10 @@ Module.register("MMM-CrisisInformationSweden", {
                     bdiv.appendChild(sdiv);
                 }
                 wrapper.appendChild(bdiv);
+
+                this.currentFeedIndex++; // On to next feed if any
             }
         }
-
-        this.currentFeedIndex++;
 
         // ----- Show service failure if any
         if (this.failure !== undefined) {
