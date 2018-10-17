@@ -31,7 +31,9 @@ modules: [
                                             // If empty or undefined show all messages. Not implemented yet.
             showDescription: true,          // Optional. Show message description.
             oldest: 7,                      // Optional. Dont show messages older then this number of days.
-            debug: false                    // Optional. Enable some extra output when debugging
+            silent: false                   // Optional. If enabled no messages are shown if therer are no
+                                            // messages younger then 'oldest' setting
+            debug: false,                   // Optional. Enable some extra output when debugging
         }
     },
     ...

@@ -26,6 +26,9 @@ Module.register("MMM-CrisisInformationSweden", {
                                         // If empty or undefined show all messages.
         showDescription: true,          // Optional. Show message description. Not yet implemented.
         oldest: 7,                      // Optional. Dont show messages older then this number of days.
+        silent: false,                  // Optional. If enabled no messages are shown if therer are no
+                                        // messages younger then 'oldest' setting
+
     },
     
     // --------------------------------------- Define required scripts
@@ -73,11 +76,13 @@ Module.register("MMM-CrisisInformationSweden", {
             }
             this.debug('Feed ix: '+this.currentFeedIndex + " noFeedsToDisplay: "+ noFeedsToDisplay);
             if (noFeedsToDisplay) {
-                var div = document.createElement("div");
-                div.innerHTML = this.name + ': There are no messages younger than '+this.config.oldest + ' days';
-                //div.style.color = "red"; // TODO Change this to a custom style
-                div.className = 'dimmed xsmall';
-                wrapper.appendChild(div);
+                if (!this.config.silent) {
+                    var div = document.createElement("div");
+                    div.innerHTML = this.name + ': There are no messages younger than '+this.config.oldest + ' days';
+                    //div.style.color = "red"; // TODO Change this to a custom style
+                    div.className = 'dimmed xsmall';
+                    wrapper.appendChild(div);
+                }
             } else {
                 this.debug('Display feed ix: '+this.currentFeedIndex);
 
