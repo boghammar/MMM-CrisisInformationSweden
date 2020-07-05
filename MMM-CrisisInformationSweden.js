@@ -28,7 +28,7 @@ Module.register("MMM-CrisisInformationSweden", {
         oldest: 7,                      // Optional. Dont show messages older then this number of days.
         silent: false,                  // Optional. If enabled no messages are shown if therer are no
                                         // messages younger then 'oldest' setting
-        list: false,                    // Display as list instead of only one at a time.
+        list: false,                    // Display as list instead of only one feed at a time.
     },
     
     // --------------------------------------- Define required scripts
@@ -65,26 +65,26 @@ Module.register("MMM-CrisisInformationSweden", {
 		}
 
         // ------ Display a selected message in the feed
-        if (this.currentFeedIndex >= this.currentFeed.length || self.config.list) this.currentFeedIndex = 0;
+        if (this.currentFeedIndex >= this.currentFeed.length || this.config.list) this.currentFeedIndex = 0;
         if (this.currentFeed.length > 0) { // We have messages display the one up for displaying
-            do{
-                this.debug('Trying to display feed ix: '+this.currentFeedIndex);
-                var noFeedsToDisplay = false;
-                var dt = moment(this.currentFeed[this.currentFeedIndex].Published);
-                if (moment().diff(dt) > this.config.oldest*24*60*60*1000) {
-                    noFeedsToDisplay = this.currentFeedIndex == 0;
-                    this.currentFeedIndex = 0;
+            this.debug('Trying to display feed ix: '+this.currentFeedIndex);
+            var noFeedsToDisplay = false;
+            var dt = moment(this.currentFeed[this.currentFeedIndex].Published);
+            if (moment().diff(dt) > this.config.oldest*24*60*60*1000) {
+                noFeedsToDisplay = this.currentFeedIndex == 0;
+                this.currentFeedIndex = 0;
+            }
+            this.debug('Feed ix: '+this.currentFeedIndex + " noFeedsToDisplay: "+ noFeedsToDisplay);
+            if (noFeedsToDisplay) {
+                if (!this.config.silent) {
+                    var div = document.createElement("div");
+                    div.innerHTML = this.name + ': There are no messages younger than '+this.config.oldest + ' days';
+                    //div.style.color = "red"; // TODO Change this to a custom style
+                    div.className = 'dimmed xsmall';
+                    wrapper.appendChild(div);
                 }
-                this.debug('Feed ix: '+this.currentFeedIndex + " noFeedsToDisplay: "+ noFeedsToDisplay);
-                if (noFeedsToDisplay) {
-                    if (!this.config.silent) {
-                        var div = document.createElement("div");
-                        div.innerHTML = this.name + ': There are no messages younger than '+this.config.oldest + ' days';
-                        //div.style.color = "red"; // TODO Change this to a custom style
-                        div.className = 'dimmed xsmall';
-                        wrapper.appendChild(div);
-                    }
-                } else {
+            } else {
+                do{
                     this.debug('Display feed ix: '+this.currentFeedIndex);
 
                     var msg = this.currentFeed[this.currentFeedIndex];
@@ -145,8 +145,8 @@ Module.register("MMM-CrisisInformationSweden", {
                     wrapper.appendChild(bdiv);
 
                     this.currentFeedIndex++; // On to next feed if any
-                }
-            }while(self.config.list && this.currentFeedIndex < this.currentFeed.length);
+                }while(!noFeedsToDisplay && this.config.list && this.currentFeedIndex < this.currentFeed.length);
+            }
         }
 
         // ----- Show service failure if any
