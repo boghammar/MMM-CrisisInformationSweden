@@ -85,8 +85,8 @@ Module.register("MMM-CrisisInformationSweden", {
                 }
             } else {
                 do{
-                    var subWrapper = document.createElement("div");
-                    wrapper.appendChild(subWrapper);
+                    var feedItem = document.createElement("div");
+                    wrapper.appendChild(feedItem);
 
                     this.debug('Display feed ix: '+this.currentFeedIndex);
 
@@ -106,13 +106,13 @@ Module.register("MMM-CrisisInformationSweden", {
                     spanh.innerHTML = msg.InfoData[0].Headline;
                     spanh.className = 'small align-left';
                     tdiv.appendChild(spanh);
-                    subWrapper.appendChild(tdiv);
+                    feedItem.appendChild(tdiv);
 
                     if (this.config.showDescription) {
                         var ddiv = document.createElement("div");
                         ddiv.innerHTML = msg.InfoData[0].Description;
                         ddiv.className = 'dimmed xsmall align-left';
-                        subWrapper.appendChild(ddiv);
+                        feedItem.appendChild(ddiv);
                     }
                     var bdiv = document.createElement("div");
                     bdiv.className = 'dimmed xsmall';
@@ -145,7 +145,7 @@ Module.register("MMM-CrisisInformationSweden", {
                         sdiv.style.cssFloat = 'right';
                         bdiv.appendChild(sdiv);
                     }
-                    subWrapper.appendChild(bdiv);
+                    feedItem.appendChild(bdiv);
 
                     this.currentFeedIndex++; // On to next feed if any
                 }while(!noFeedsToDisplay && this.config.list && this.currentFeedIndex < this.currentFeed.length);
