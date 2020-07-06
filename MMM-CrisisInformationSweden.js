@@ -84,8 +84,13 @@ Module.register("MMM-CrisisInformationSweden", {
                     wrapper.appendChild(div);
                 }
             } else {
+                var feedItem = undefined;
                 do{
-                    var feedItem = document.createElement("div");
+                    if(feedItem !== undefined){
+                        feedItem.style.paddingBottom = '1em';
+                    }
+
+                    feedItem = document.createElement("div");
                     wrapper.appendChild(feedItem);
 
                     this.debug('Display feed ix: '+this.currentFeedIndex);
