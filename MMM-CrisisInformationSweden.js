@@ -100,6 +100,7 @@ Module.register("MMM-CrisisInformationSweden", {
                             ? moment().format('HH:mm:ss') + ' Ix:'+ this.currentFeedIndex + ' Pub: '+msg.Published 
                             :'');
                     spant.className = 'dimmed xsmall';
+                    spant.style.clear = 'both';
                     tdiv.appendChild(spant);
 
                     var spanh = document.createElement("div");
