@@ -154,10 +154,10 @@ Module.register("MMM-CrisisInformationSweden", {
                     feedItem.appendChild(bdiv);
 
                     this.currentFeedIndex++; // On to next feed if any
-                    if(this.config.list !== true && this.config.list !== false){
+                    if(typeof this.config.list === 'boolean'){
                         this.config.list--;
                     }
-                }while(!noFeedsToDisplay && this.config.list && this.currentFeedIndex < this.currentFeed.length);
+                }while(!noFeedsToDisplay && (typeof this.config.list === 'boolean' ? this.config.list : 0 < this.config.list) && this.currentFeedIndex < this.currentFeed.length);
             }
         }
 
