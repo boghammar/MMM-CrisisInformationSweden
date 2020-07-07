@@ -154,7 +154,7 @@ Module.register("MMM-CrisisInformationSweden", {
                     feedItem.appendChild(bdiv);
 
                     this.currentFeedIndex++; // On to next feed if any
-                    if(typeof this.config.list === 'boolean'){
+                    if(typeof this.config.list !== 'boolean'){
                         this.config.list--;
                     }
                 }while(!noFeedsToDisplay && (typeof this.config.list === 'boolean' ? this.config.list : 0 < this.config.list) && this.currentFeedIndex < this.currentFeed.length);
