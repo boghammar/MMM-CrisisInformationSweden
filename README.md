@@ -34,7 +34,7 @@ modules: [
             silent: false                   // Optional. If enabled no messages are shown if therer are no
                                             // messages younger then 'oldest' setting
             debug: false,                   // Optional. Enable some extra output when debugging
-            list: false,                    // Optional. Display as a list instead of only one feed at a time. Overrides 'oldest'. Bool or amount.
+            list: false,                    // Optional. Display as a list instead of only one feed at a time. Overrides 'oldest' and 'silent'. Bool or amount.
         }
     },
     ...

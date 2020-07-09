@@ -28,7 +28,7 @@ Module.register("MMM-CrisisInformationSweden", {
         oldest: 7,                      // Optional. Dont show messages older then this number of days.
         silent: false,                  // Optional. If enabled no messages are shown if therer are no
                                         // messages younger then 'oldest' setting
-        list: false,                    // Optional. Display as a list instead of only one feed at a time. Overrides 'oldest'. Bool or amount.
+        list: false,                    // Optional. Display as a list instead of only one feed at a time. Overrides 'oldest' and 'silent'. Bool or amount.
     },
     
     // --------------------------------------- Define required scripts
@@ -65,12 +65,13 @@ Module.register("MMM-CrisisInformationSweden", {
 		}
 
         // ------ Display a selected message in the feed
-        if (this.currentFeedIndex >= this.currentFeed.length || 0 < this.config.list) this.currentFeedIndex = 0;
+        var listView = 0 < this.config.list;
+        if (this.currentFeedIndex >= this.currentFeed.length || listView) this.currentFeedIndex = 0;
         if (this.currentFeed.length > 0) { // We have messages display the one up for displaying
             this.debug('Trying to display feed ix: '+this.currentFeedIndex);
             var noFeedsToDisplay = false;
             var dt = moment(this.currentFeed[this.currentFeedIndex].Published);
-            if (moment().diff(dt) > this.config.oldest*24*60*60*1000) {
+            if (moment().diff(dt) > this.config.oldest*24*60*60*1000 && !listView) {
                 noFeedsToDisplay = this.currentFeedIndex == 0;
                 this.currentFeedIndex = 0;
             }
