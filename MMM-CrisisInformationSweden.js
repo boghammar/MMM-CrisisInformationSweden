@@ -85,6 +85,7 @@ Module.register("MMM-CrisisInformationSweden", {
                 }
             } else {
                 var feedItem = undefined;
+                var listOption = this.config.list;
                 do{
                     if(feedItem !== undefined){
                         feedItem.style.paddingBottom = '1em';
@@ -154,10 +155,10 @@ Module.register("MMM-CrisisInformationSweden", {
                     feedItem.appendChild(bdiv);
 
                     this.currentFeedIndex++; // On to next feed if any
-                    if(typeof this.config.list !== 'boolean'){
-                        this.config.list--;
+                    if(typeof listOption !== 'boolean'){
+                        listOption--;
                     }
-                }while(!noFeedsToDisplay && (typeof this.config.list === 'boolean' ? this.config.list : 0 < this.config.list) && this.currentFeedIndex < this.currentFeed.length);
+                }while(!noFeedsToDisplay && (typeof listOption === 'boolean' ? listOption : 0 < listOption) && this.currentFeedIndex < this.currentFeed.length);
             }
         }
 
