@@ -66,6 +66,11 @@ Module.register("MMM-CrisisInformationSweden", {
 
         // ------ Display a selected message in the feed
         var listView = 0 < this.config.list;
+        if(listView){
+            wrapper.style.display = 'flex';
+            wrapper.style.flexFlow = 'column wrap';
+            wrapper.style.overflow = 'hidden';
+        }
         if (this.currentFeedIndex >= this.currentFeed.length || listView) this.currentFeedIndex = 0;
         if (this.currentFeed.length > 0) { // We have messages display the one up for displaying
             this.debug('Trying to display feed ix: '+this.currentFeedIndex);
@@ -89,7 +94,7 @@ Module.register("MMM-CrisisInformationSweden", {
                 var listOption = this.config.list;
                 do{
                     if(feedItem !== undefined){
-                        feedItem.style.paddingBottom = '1em';
+                        feedItem.style.paddingBottom = '21px';
                     }
 
                     feedItem = document.createElement("div");
