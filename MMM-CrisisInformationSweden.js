@@ -94,7 +94,7 @@ Module.register("MMM-CrisisInformationSweden", {
                 var listOption = this.config.list;
                 do{
                     if(feedItem !== undefined){
-                        feedItem.style.paddingBottom = '21px';
+                        feedItem.style.paddingBottom = '8.5px';
                     }
 
                     feedItem = document.createElement("div");
