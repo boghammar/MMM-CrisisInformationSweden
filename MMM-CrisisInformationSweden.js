@@ -28,7 +28,7 @@ Module.register("MMM-CrisisInformationSweden", {
         oldest: 7,                      // Optional. Dont show messages older then this number of days.
         silent: false,                  // Optional. If enabled no messages are shown if therer are no
                                         // messages younger then 'oldest' setting
-
+        list: false,                    // Optional. Display as a list instead of only one feed at a time. Overrides 'oldest' and 'silent'. Bool or amount.
     },
     
     // --------------------------------------- Define required scripts
@@ -65,12 +65,18 @@ Module.register("MMM-CrisisInformationSweden", {
 		}
 
         // ------ Display a selected message in the feed
-        if (this.currentFeedIndex >= this.currentFeed.length) this.currentFeedIndex = 0;
+        var listView = 0 < this.config.list;
+        if(listView){
+            wrapper.style.display = 'flex';
+            wrapper.style.flexFlow = 'column wrap';
+            wrapper.style.overflow = 'hidden';
+        }
+        if (this.currentFeedIndex >= this.currentFeed.length || listView) this.currentFeedIndex = 0;
         if (this.currentFeed.length > 0) { // We have messages display the one up for displaying
             this.debug('Trying to display feed ix: '+this.currentFeedIndex);
             var noFeedsToDisplay = false;
             var dt = moment(this.currentFeed[this.currentFeedIndex].Published);
-            if (moment().diff(dt) > this.config.oldest*24*60*60*1000) {
+            if (moment().diff(dt) > this.config.oldest*24*60*60*1000 && !listView) {
                 noFeedsToDisplay = this.currentFeedIndex == 0;
                 this.currentFeedIndex = 0;
             }
@@ -84,66 +90,81 @@ Module.register("MMM-CrisisInformationSweden", {
                     wrapper.appendChild(div);
                 }
             } else {
-                this.debug('Display feed ix: '+this.currentFeedIndex);
-
-                var msg = this.currentFeed[this.currentFeedIndex];
-
-                var tdiv = document.createElement("div");
-                tdiv.className = 'align-left';
-                var spant = document.createElement("div");
-                spant.innerHTML = moment(msg.Published).fromNow() + " " // TODO Format the time according to how long ago it was
-                    + (this.config.debug 
-                        ? moment().format('HH:mm:ss') + ' Ix:'+ this.currentFeedIndex + ' Pub: '+msg.Published 
-                        :'');
-                spant.className = 'dimmed xsmall';
-                tdiv.appendChild(spant);
-
-                var spanh = document.createElement("div");
-                spanh.innerHTML = msg.InfoData[0].Headline;
-                spanh.className = 'small align-left';
-                tdiv.appendChild(spanh);
-                wrapper.appendChild(tdiv);
-
-                if (this.config.showDescription) {
-                    var ddiv = document.createElement("div");
-                    ddiv.innerHTML = msg.InfoData[0].Description;
-                    ddiv.className = 'dimmed xsmall align-left';
-                    wrapper.appendChild(ddiv);
-                }
-                var bdiv = document.createElement("div");
-                bdiv.className = 'dimmed xsmall';
-                // TODO use style instead
-                bdiv.style.marginTop = '5px';
-                bdiv.style.borderTopWidth = '1px';
-                bdiv.style.borderTopColor = '#666';
-                bdiv.style.borderTopStyle = 'dotted';
-                if (msg.InfoData[0].Area !== undefined && msg.InfoData[0].Area != null && msg.InfoData[0].Area.length > 0) {
-                    var adiv = document.createElement("span");
-                    adiv.innerHTML = '<b>Area(s):</b> ';
-                    for (var ia = 0 ; ia < msg.InfoData[0].Area.length; ia++) {
-                        adiv.innerHTML = adiv.innerHTML + (ia > 0 ? ', ' : '') + msg.InfoData[0].Area[ia].AreaDesc;
+                var feedItem = undefined;
+                var listOption = this.config.list;
+                do{
+                    if(feedItem !== undefined){
+                        feedItem.style.paddingBottom = '8.5px';
                     }
-                    adiv.className = 'align-left';
-                    adiv.style.cssFloat = 'left';
-                    bdiv.appendChild(adiv);
-                }
-                if (this.config.debug) {
-                    var sdiv = document.createElement("span");
-                    sdiv.innerHTML = '<b>Feeds:</b> ' + this.currentFeed.length;
-                    //sdiv.className = 'align-right';
-                    //sdiv.style.cssFloat = 'right';
-                    bdiv.appendChild(sdiv);
-                }
-                if (msg.InfoData[0].SenderName !== undefined && msg.InfoData[0].SenderName != '') {
-                    var sdiv = document.createElement("span");
-                    sdiv.innerHTML = '<b>From:</b> ' + msg.InfoData[0].SenderName;
-                    sdiv.className = 'align-right';
-                    sdiv.style.cssFloat = 'right';
-                    bdiv.appendChild(sdiv);
-                }
-                wrapper.appendChild(bdiv);
 
-                this.currentFeedIndex++; // On to next feed if any
+                    feedItem = document.createElement("div");
+                    wrapper.appendChild(feedItem);
+
+                    this.debug('Display feed ix: '+this.currentFeedIndex);
+
+                    var msg = this.currentFeed[this.currentFeedIndex];
+
+                    var tdiv = document.createElement("div");
+                    tdiv.className = 'align-left';
+                    var spant = document.createElement("div");
+                    spant.innerHTML = moment(msg.Published).fromNow() + " " // TODO Format the time according to how long ago it was
+                        + (this.config.debug 
+                            ? moment().format('HH:mm:ss') + ' Ix:'+ this.currentFeedIndex + ' Pub: '+msg.Published 
+                            :'');
+                    spant.className = 'dimmed xsmall';
+                    spant.style.clear = 'both';
+                    tdiv.appendChild(spant);
+
+                    var spanh = document.createElement("div");
+                    spanh.innerHTML = msg.InfoData[0].Headline;
+                    spanh.className = 'small align-left';
+                    tdiv.appendChild(spanh);
+                    feedItem.appendChild(tdiv);
+
+                    if (this.config.showDescription) {
+                        var ddiv = document.createElement("div");
+                        ddiv.innerHTML = msg.InfoData[0].Description;
+                        ddiv.className = 'dimmed xsmall align-left';
+                        feedItem.appendChild(ddiv);
+                    }
+                    var bdiv = document.createElement("div");
+                    bdiv.className = 'dimmed xsmall';
+                    // TODO use style instead
+                    bdiv.style.marginTop = '5px';
+                    bdiv.style.borderTopWidth = '1px';
+                    bdiv.style.borderTopColor = '#666';
+                    bdiv.style.borderTopStyle = 'dotted';
+                    if (msg.InfoData[0].Area !== undefined && msg.InfoData[0].Area != null && msg.InfoData[0].Area.length > 0) {
+                        var adiv = document.createElement("span");
+                        adiv.innerHTML = '<b>Area(s):</b> ';
+                        for (var ia = 0 ; ia < msg.InfoData[0].Area.length; ia++) {
+                            adiv.innerHTML = adiv.innerHTML + (ia > 0 ? ', ' : '') + msg.InfoData[0].Area[ia].AreaDesc;
+                        }
+                        adiv.className = 'align-left';
+                        adiv.style.cssFloat = 'left';
+                        bdiv.appendChild(adiv);
+                    }
+                    if (this.config.debug) {
+                        var sdiv = document.createElement("span");
+                        sdiv.innerHTML = '<b>Feeds:</b> ' + this.currentFeed.length;
+                        //sdiv.className = 'align-right';
+                        //sdiv.style.cssFloat = 'right';
+                        bdiv.appendChild(sdiv);
+                    }
+                    if (msg.InfoData[0].SenderName !== undefined && msg.InfoData[0].SenderName != '') {
+                        var sdiv = document.createElement("span");
+                        sdiv.innerHTML = '<b>From:</b> ' + msg.InfoData[0].SenderName;
+                        sdiv.className = 'align-right';
+                        sdiv.style.cssFloat = 'right';
+                        bdiv.appendChild(sdiv);
+                    }
+                    feedItem.appendChild(bdiv);
+
+                    this.currentFeedIndex++; // On to next feed if any
+                    if(typeof listOption !== 'boolean'){
+                        listOption--;
+                    }
+                }while(!noFeedsToDisplay && (typeof listOption === 'boolean' ? listOption : 0 < listOption) && this.currentFeedIndex < this.currentFeed.length);
             }
         }
 
