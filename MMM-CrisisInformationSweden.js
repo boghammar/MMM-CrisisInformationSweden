@@ -90,6 +90,33 @@ Module.register("MMM-CrisisInformationSweden", {
                     wrapper.appendChild(div);
                 }
             } else {
+                this.debug('Display feed ix: '+this.currentFeedIndex);
+
+                var msg = this.currentFeed[this.currentFeedIndex];
+
+                var tdiv = document.createElement("div");
+                tdiv.className = 'align-left';
+                var spant = document.createElement("div");
+                spant.innerHTML = moment(msg.Published).fromNow() + " " // TODO Format the time according to how long ago it was
+                    + (this.config.debug 
+                        ? moment().format('HH:mm:ss') + ' Ix:'+ this.currentFeedIndex + ' Pub: '+msg.Published 
+                        :'');
+                spant.className = 'dimmed xsmall';
+                tdiv.appendChild(spant);
+
+                var spanh = document.createElement("div");
+                spanh.innerHTML = msg.InfoData[0].Headline;
+                spanh.className = 'small align-left';
+                tdiv.appendChild(spanh);
+                wrapper.appendChild(tdiv);
+
+                if (this.config.showDescription) {
+                    var ddiv = document.createElement("div");
+                    ddiv.innerHTML = msg.InfoData[0].Description;
+                    ddiv.className = 'dimmed xsmall align-left';
+                    wrapper.appendChild(ddiv);
+                }
+            } else {
                 var feedItem = undefined;
                 var listOption = this.config.list;
                 do{
